@@ -56,7 +56,7 @@ partnerRouter.route('/:partnerId')
     res.end(`POST operation not supported on /partners/${req.params.partnerId}`);
 })
 .put((req,res, next) =>{
-    Partner.findByIdAndUpdate(req.params.campsiteId, {
+    Partner.findByIdAndUpdate(req.params.partnerId, {
         $set: req.body
     }, {new: true})
     .then(partner => {
