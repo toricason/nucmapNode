@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var logger = require('morgan');
 const passport = require('passport');
-const config = require('congig')
+const config = require('./config')
 
 
 var indexRouter = require('./routes/index');
@@ -35,7 +35,6 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser('12345-67890-09876-54321'));
 app.use(passport.initialize());
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -45,24 +44,6 @@ app.use('/partners', partnerRouter);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
-function auth(req, res, next) {
-  console.log(req.session);
-
-  if (!req.session.user) {
-      const err = new Error('You are not authenticated!');
-      err.status = 401;
-      return next(err);
-  } else {
-      if (req.session.user === 'authenticated') {
-          return next();
-      } else {
-          const err = new Error('You are not authenticated!');
-          err.status = 401;
-          return next(err);
-      }
-  }
-}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
